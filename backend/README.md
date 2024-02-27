@@ -23,23 +23,23 @@
 
     ```bash
     # Check python version
-    python --version
+    python3 --version
     ```
 
 2. **Install Django Project:**
 
     ```bash
-    mkdir backEnd
-    cd backEnd
+    mkdir backend
+    cd backend
 
     # Install django with pip in a virtual environment
     sudo apt install python3-pip python3-venv
 
     # Create virtual environment within the project
-    python3 -m venv my_env
+    python3 -m venv .venv
 
     # activate the environment
-    source my_env/bin/activate
+    source .venv/bin/activate
     # deactivate the environment
     deactivate
 
@@ -47,24 +47,98 @@
     pip install django
     pip install djangorestframework
     pip install django-cors-headers
-    python -m pip install Pillow
+    pip install Pillow 
     django-admin startproject allbackend .
-    python manage.py collectstatic
-    pip freeze > requirements.txt
+    # update settings.py
+
+    #env variables
+    pip install python-dotenv
+    # update settings.py
+
     python manage.py runserver
     ```
 
-3. **Setup Database, createsuperuser and makemigrations**
+3. **Setup Database, createsuperuser, makemigrations and collectstatics**
     ```bash
     # setup postgresql database
     pip install psycopg2-binary
     pip install python-decouple
+    # update settings.py
+    
     # create createsuperuser
     python manage.py createsuperuser
+    pip install -U django-jazzmin # User Interface
+    # update settings.py
+
     # make migrations
     python manage.py makemigrations
     python manage.py migrate
+
+    # create folder static, collect static files
+    python manage.py collectstatic
+    # update settings.py
+
     python manage.py runserver
+    ```
+
+4. **Host on Render**
+    ```python
+    pip install gunicorn
+    pip install psycopg2-binary
+
+    # collect all requirements
+    pip freeze > requirements.txt
+    ```
+
+5. **Update allbackend settings.py**
+    ```python
+    from pathlib import Path
+    from dotenv import load_dotenv
+    import os
+    load_dotenv()
+
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+    DEBUG = int(os.environ.get("DEBUG", default=0))
+    ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+
+    INSTALLED_APPS = [
+    'corsheaders',
+    'rest_framework',
+    ]
+
+    CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://192.168.0.17:5173']
+
+    MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    ]
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DB'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('POSTGRES_HOST'),
+            'PORT': os.environ.get('POSTGRES_PORT'),
+        }
+    }
+
+    # Static Files and Media Files
+    STATIC_URL = 'static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
+
+    #Jazzmin UI
+    JAZZMIN_SETTINGS = {
+        "site_title": "Momanyi Admin",
+        "site_header": "Momanyi Backend",
+        "site_brand": "Momanyi Admin",
+    }
     ```
 
 ## Useful Resources
