@@ -83,8 +83,60 @@
     ```
 
 4. **Create application, api and url's**
-    ```bash
-    # 
+    ```python
+    # 1. create app
+    python manage.py createapp farewell
+    # update settings.py
+
+    # 2. create models
+    class ContactMessage(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    message_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.full_name
+
+    # 3. register models in admin.py
+    from .models import ContactMessage
+    # CHANGING TABLE LAYOUT
+    class ContactMessageAdmin(admin.ModelAdmin):
+        list_display = ('id', 'full_name', 'email', 'message', 'message_date')
+        list_filter = ['message_date']
+    # Register your models here.
+    admin.site.register(ContactMessage, ContactMessageAdmin)
+
+    # 4. serialize
+    from rest_framework.serializers import ModelSerializer
+    from .models import ContactMessage
+
+    class ContactMessageSerializer(ModelSerializer):
+        class Meta:
+            model = ContactMessage
+            fields = ('id', 'full_name', 'email', 'message', 'message_date')
+
+    # 5. create view
+    from rest_framework.viewsets import ModelViewSet
+    from .models import ContactMessage
+    from .serializers import ContactMessageSerializer
+    # Create your views here.
+    class ContactMessageView(ModelViewSet):
+        queryset = ContactMessage.objects.all()
+        serializer_class = ContactMessageSerializer
+
+    # 6. create urls
+    from django.urls import path
+    from rest_framework.routers import DefaultRouter
+    from .views import ContactMessageView
+
+    post_router = DefaultRouter()
+    post_router.register(r'contactus', ContactMessageView)
+
+    urlpatterns = post_router.urls
+
+    # 7. Update allbackend urls.py
+    path('farewell/api/', include('farewell.urls')),
     ```
 
 5. **Host on Render**
@@ -115,6 +167,7 @@
         'jazzmin',
         'corsheaders',
         'rest_framework',
+        'farewell.apps.FarewellConfig',
     ]
 
     CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://192.168.0.17:5173']
@@ -167,6 +220,7 @@
 
         urlpatterns = [
             path('admin/', admin.site.urls),
+            path('farewell/api/', include('farewell.urls')),
         ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
         urlpatterns += staticfiles_urlpatterns()

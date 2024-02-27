@@ -42,9 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'farewell.apps.FarewellConfig',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://192.168.0.17:5173']
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://192.168.0.17:5173', 'https://farewell-bosibori-nyambane.vercel.app']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
