@@ -77,11 +77,17 @@
     # create folder static, collect static files
     python manage.py collectstatic
     # update settings.py
+    # update urls.py
 
     python manage.py runserver
     ```
 
-4. **Host on Render**
+4. **Create application, api and url's**
+    ```bash
+    # 
+    ```
+
+5. **Host on Render**
     ```python
     pip install gunicorn
     pip install psycopg2-binary
@@ -94,7 +100,7 @@
     gunicorn allbackend.wsgi:application
     ```
 
-5. **Update allbackend settings.py**
+6. **Update allbackend settings.py**
     ```python
     from pathlib import Path
     from dotenv import load_dotenv
@@ -144,6 +150,26 @@
         "site_header": "Momanyi Backend",
         "site_brand": "Momanyi Admin",
     }
+    ```
+
+7. **Update allbackend urls.py**
+    ```python
+        from django.contrib import admin
+        from django.urls import path, include
+        from rest_framework import routers
+        from django.conf import settings
+        from django.conf.urls.static import static
+        from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+        router = routers.DefaultRouter()
+
+        urlpatterns = router.urls
+
+        urlpatterns = [
+            path('admin/', admin.site.urls),
+        ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+        urlpatterns += staticfiles_urlpatterns()
     ```
 
 ## Useful Resources
