@@ -59,6 +59,7 @@
     ```
 
 3. **Setup Database, createsuperuser, makemigrations and collectstatics**
+
     ```bash
     # setup postgresql database
     pip install psycopg2-binary
@@ -82,7 +83,8 @@
     python manage.py runserver
     ```
 
-4. **Create application, api and url's**
+4. **Create application, api and url endpoint**
+
     ```python
     # 1. create app
     python manage.py createapp farewell
@@ -140,6 +142,7 @@
     ```
 
 5. **Host on Render**
+
     ```python
     pip install gunicorn
     pip install psycopg2-binary
@@ -153,6 +156,7 @@
     ```
 
 6. **Update allbackend settings.py**
+
     ```python
     from pathlib import Path
     from dotenv import load_dotenv
@@ -206,6 +210,7 @@
     ```
 
 7. **Update allbackend urls.py**
+
     ```python
         from django.contrib import admin
         from django.urls import path, include
