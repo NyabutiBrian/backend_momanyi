@@ -64,15 +64,15 @@
     pip install psycopg2-binary
     pip install python-decouple
     # update settings.py
+
+    # make migrations
+    python manage.py makemigrations
+    python manage.py migrate
     
     # create createsuperuser
     python manage.py createsuperuser
     pip install -U django-jazzmin # User Interface
     # update settings.py
-
-    # make migrations
-    python manage.py makemigrations
-    python manage.py migrate
 
     # create folder static, collect static files
     python manage.py collectstatic
@@ -88,6 +88,10 @@
 
     # collect all requirements
     pip freeze > requirements.txt
+
+    # In render settings
+    # add environment variables and
+    gunicorn allbackend.wsgi:application
     ```
 
 5. **Update allbackend settings.py**
@@ -102,16 +106,17 @@
     ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
     INSTALLED_APPS = [
-    'corsheaders',
-    'rest_framework',
+        'jazzmin',
+        'corsheaders',
+        'rest_framework',
     ]
 
     CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://192.168.0.17:5173']
 
     MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
     ]
 
     DATABASES = {
