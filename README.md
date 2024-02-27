@@ -13,10 +13,6 @@
 
 All in one Backend Project to host all backend application api's for various projects.
 
-This repository contains:
-- 
-
-
 **More content to be added**
 
 ## Author
