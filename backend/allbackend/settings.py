@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'farewell.apps.FarewellConfig',
+    'birthday.apps.BirthdayConfig',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://192.168.0.17:5173', 'https://farewell-bosibori-nyambane.vercel.app']
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://192.168.0.17:5173', 'https://farewell-bosibori-nyambane.vercel.app', 'https://happy-belated-birthday.vercel.app']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

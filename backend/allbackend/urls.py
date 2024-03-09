@@ -12,6 +12,7 @@ urlpatterns = router.urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('farewell/api/', include('farewell.urls')),
+    path('birthday/api/', include('birthday.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
