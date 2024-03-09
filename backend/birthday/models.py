@@ -16,4 +16,4 @@ class Birthday(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.last_name
+        return self.first_name
