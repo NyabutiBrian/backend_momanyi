@@ -24,6 +24,7 @@
     ```bash
     # Check python version
     python3 --version
+    python3 --version #windows
     ```
 
 2. **Install Django Project:**
@@ -32,22 +33,25 @@
     mkdir backend
     cd backend
 
-    # Install django with pip in a virtual environment
-    sudo apt install python3-pip python3-venv
-
     # Create virtual environment within the project
-    python3 -m venv .venv
+    python3 -m venv .venv #ubuntu
+    python -m venv .venv #windows
 
     # activate the environment
-    source .venv/bin/activate
+    source .venv/bin/activate #ubuntu
+    .venv/Scripts/activate #windows
     # deactivate the environment
     deactivate
+
+    # Install django with pip in a virtual environment
+    sudo apt install python3-pip python3-venv
 
     # install django
     pip install django
     pip install djangorestframework
     pip install django-cors-headers
     pip install Pillow 
+    pip install -r requirements.txt # install all the packages listed in your requirements. txt
     django-admin startproject allbackend .
     # update settings.py
 
